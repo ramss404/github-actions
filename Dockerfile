@@ -1,15 +1,4 @@
-FROM node:9
+FROM nginx:latest
 
-WORKDIR /app
 
-RUN npm install -g contentful-cli
-
-COPY package.json .
-RUN npm install
-
-COPY . .
-
-USER node
-EXPOSE 3000
-
-CMD ["npm", "run", "start:dev"]
+RUN chown -R www-data:www-data /var/www/html
