@@ -45,19 +45,19 @@ jobs:
 
       - name: Download task def
         run: |
-          aws ecs describe-task-definition --task-definition rapl-repo --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition first-run-task-definition --query taskDefinition > task-definition.json
       - name: Render Amazon ECS task definition for container
         id: render-container
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: rapl-repo
+          container-name: sample-app
           image: ${{ steps.login-ecr.outputs.registry }}/rapl-repo:${{ github.sha }}
 
       - name: Deploy to Amazon ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-container.outputs.task-definition }}
-          service: rapl-rapl-service
+          service: rapl-service
           cluster: rapl-alb
           wait-for-service-stability: true
