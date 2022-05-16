@@ -45,7 +45,7 @@ jobs:
 
       - name: Download task def
         run: |
-          aws ecs describe-task-definition --task-definition GitHub-Actions-Task --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition github-actions --query taskDefinition > task-definition.json
       - name: Render Amazon ECS task definition for container
         id: render-container
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -58,6 +58,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-container.outputs.task-definition }}
-          service: github-actions
+          service: GitHub-Actions-Service
           cluster: GitHub-Actions
           wait-for-service-stability: true
