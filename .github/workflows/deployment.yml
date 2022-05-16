@@ -28,7 +28,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ap-south-1
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -45,7 +45,7 @@ jobs:
 
       - name: Download task def
         run: |
-          aws ecs describe-task-definition --task-definition github-action-task --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition github-actions-task --query taskDefinition > task-definition.json
       - name: Render Amazon ECS task definition for container
         id: render-container
         uses: aws-actions/amazon-ecs-render-task-definition@v1
