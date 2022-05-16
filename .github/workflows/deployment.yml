@@ -58,6 +58,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-container.outputs.task-definition }}
-          service: GitHub-Actions-Service
-          cluster: GitHub-Actions-Cluster
+          service: github-actions
+          cluster: GitHub-Actions
           wait-for-service-stability: true
