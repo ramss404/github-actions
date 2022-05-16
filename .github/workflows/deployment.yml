@@ -37,7 +37,7 @@ jobs:
       - name: Docker build
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: rapl-repo
+          ECR_REPOSITORY: github-actions
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
@@ -45,19 +45,19 @@ jobs:
 
       - name: Download task def
         run: |
-          aws ecs describe-task-definition --task-definition first-run-task-definition --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition GitHub-Actions-Task --query taskDefinition > task-definition.json
       - name: Render Amazon ECS task definition for container
         id: render-container
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: sample-app
+          container-name: GitHub-Actions-Container
           image: ${{ steps.login-ecr.outputs.registry }}/rapl-repo:${{ github.sha }}
 
       - name: Deploy to Amazon ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-container.outputs.task-definition }}
-          service: rapl-service
-          cluster: rapl-alb
+          service: GitHub-Actions-Service
+          cluster: GitHub-Actions-Cluster
           wait-for-service-stability: true
