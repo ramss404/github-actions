@@ -52,7 +52,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: github-actions-container
-          image: ${{ steps.login-ecr.outputs.registry }}/rapl-repo:${{ github.sha }}
+          image: ${{ steps.login-ecr.outputs.registry }}/github-actions:${{ github.sha }}
 
       - name: Deploy to Amazon ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
